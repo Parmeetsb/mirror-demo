@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+
 #install 'jq' package
 if [ $(dpkg-query -W -f='jq' nano 2>/dev/null | grep -c "ok installed") -eq 0 ];
 then
@@ -15,14 +17,18 @@ fi
 
 # Enter Username and Password
 
-read -p "Enter your Git UserName: " bbuser
-read -s -p "Enter your Git password: " bbpass
+#read -p "Enter your Git UserName: " bbuser
+#read -s -p "Enter your Git password: " bbpass
 
-bitbucket_get_urls () {	
-	curl --user $bbuser:$bbpass https://bitbucket.org/api/1.0/user/repositories | jq '.[].resource_uri' | sed 's/\/1\.0\/repositories\///g' | sed 's/\"//g'  	| sed 's/^[^:]*\///g' > reponame
+bitbucket_get_urls () {
+	#rm reponame
+	#curl --user fa-parmeet-singh:Dj@ngo89 https://bitbucket.org/api/1.0/user/repositories | jq '.[].resource_uri' | sed 's/\/1\.0\/repositories\///g' > reponame
+	curl --user parmeet89:qweryt567 https://bitbucket.org/api/1.0/user/repositories | jq '.[].resource_uri' | sed 's/\/1\.0\/repositories\///g' | sed 's/\"//g'  	| sed 's/^[^:]*\///g' > reponame
+
+	
 }
 
-bb_mirror () {
+bb_backup () {
 
 IFS=$'\n' read -d '' -r -a names < reponame
 

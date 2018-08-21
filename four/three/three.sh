@@ -59,7 +59,6 @@ bb_archive() {
 
 	for x in ${names[@]} ; do
 
-
 		#sudo -u $USER mkdir $x
 		#git clone git@bitbucket.org:forgeahead/nti-mobile.git
 		#echo "hello world" > $x/one.txt

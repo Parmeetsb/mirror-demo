@@ -1,0 +1,9 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = true
+[remote "origin"]
+	url = git@bitbucket.org:fapsb/mirror-sync.git
+[remote "repo1"]
+	url = git@bitbucket.org:fapsb/mirrored-repo.git
+	fetch = +refs/*:refs/*

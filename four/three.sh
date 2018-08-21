@@ -3,12 +3,10 @@
 
 
 #install 'jq' package
-: '
 if [ $(dpkg-query -W -f='jq' nano 2>/dev/null | grep -c "ok installed") -eq 0 ];
 then
   apt-get -qq -y install jq parallel;
 fi
-'
 
 : '
 if [ $(dpkg-query -W -f='parallel' nano 2>/dev/null | grep -c "ok installed") -eq 0 ];
@@ -22,27 +20,22 @@ fi
 # read -p "Enter your Git UserName: " bbuser
 # read -s -p "Enter your Git password: " bbpass
 
-BITBUCKET_ACCOUNT_NAME=forgeahead
-GITROOT=git@bitbucket.org:${BITBUCKET_ACCOUNT_NAME}
-now=$(date +"%m_%d_%Y")
 
+REPO_NAME=$1
+BRANCH_NAME=$2
+THIS_DIR=$3
 
-
-user=$USER
-
-BRANCH_NAME=$1
-
- 
 if [ -z "$BRANCH_NAME" ]; then
     BRANCH_NAME=master
 fi
-
+if [ -z "$THIS_DIR" ]; then
+    THIS_DIR=$REPO_NAME
+fi
  
 if [ -d "$THIS_DIR" ]; then
     echo "Error: directory '$THIS_DIR' already exists."
     exit 1$(date +%Y%m%d)
 fi
- 
 
 
 bitbucket_get_urls () {
@@ -59,17 +52,13 @@ bb_archive() {
 
 	for x in ${names[@]} ; do
 
-
-		#sudo -u $USER mkdir $x
-		#git clone git@bitbucket.org:forgeahead/nti-mobile.git
-		#echo "hello world" > $x/one.txt
-		echo $GITROOT/$x.git
-		
-		sudo -u $USER git archive --format=tar --remote=$GITROOT/$x.git $BRANCH_NAME | gzip > $x-$(date +%Y%m%d).tar.gz | parallel 
+		mkdir $THIS_DIR
+		git archive --format=tar --remote=$GITROOT/$$x $BRANCH_NAME | gzip > $$x-$(date +%Y%m%d).tar.gz 
  
 	done  
 
 }
+
 
 
 bb_backup () {
@@ -94,7 +83,7 @@ done
 
 }
 
-#bitbucket_get_urls
+bitbucket_get_urls
 bb_archive
 #bb_backup
 exit 0
